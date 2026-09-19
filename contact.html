@@ -81,6 +81,17 @@
     </div>
   </footer>
 
+  <div class="wa-fab" id="waFab">💬</div>
+
+  <div class="chat" id="chat">
+    <div class="chat-head"><span></span>Glow &amp; Grace Assistant</div>
+    <div class="chat-body" id="chatBody">
+      <div class="msg bot">Salaam! 👋 I'm Glow &amp; Grace's assistant. How can I help? (Type a number)</div>
+      <div class="msg bot">1 — Prices<br/>2 — Booking<br/>3 — Hours &amp; location<br/>4 — Talk to a human</div>
+    </div>
+    <div class="chat-input"><input id="chatIn" placeholder="Type 1, 2, 3 or 4…" /><button id="chatSend">➤</button></div>
+  </div>
+
   <script>
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
@@ -100,6 +111,30 @@
       document.getElementById('okbox').style.display = 'block';
       e.target.style.display = 'none';
     });
+    const fab = document.getElementById('waFab');
+    const chat = document.getElementById('chat');
+    fab.addEventListener('click', () => chat.classList.toggle('open'));
+    const chatBody = document.getElementById('chatBody');
+    const chatIn = document.getElementById('chatIn');
+    const chatSend = document.getElementById('chatSend');
+    const menu = {
+      '1': '💇‍♀️ Hair styles from Rs 1,500 · 💄 Bridal makeup from Rs 15,000 · 🧖‍♀️ Facials from Rs 3,500. Full list → services.html',
+      '2': '📅 Great! Send us your name, service and preferred time on WhatsApp and we\u2019ll confirm instantly.',
+      '3': '📍 Clifton Block 5, Karachi · Open Tue–Sun, 10 AM – 9 PM (closed Mondays).',
+      '4': '👩 A human will reply shortly! For fastest response, message us directly on WhatsApp.',
+    };
+    function botReply(t){
+      const d = document.createElement('div'); d.className = 'msg bot'; d.textContent = t;
+      chatBody.appendChild(d); chatBody.scrollTop = chatBody.scrollHeight;
+    }
+    function send(){
+      const v = chatIn.value.trim().toLowerCase(); if(!v) return;
+      const d = document.createElement('div'); d.className = 'msg user'; d.textContent = v;
+      chatBody.appendChild(d); chatBody.scrollTop = chatBody.scrollHeight; chatIn.value = '';
+      setTimeout(() => { botReply(menu[v] || "Hmm, I didn't catch that. Type 1 — Prices, 2 — Booking, 3 — Hours, or 4 — Talk to a human."); }, 600);
+    }
+    chatSend.addEventListener('click', send);
+    chatIn.addEventListener('keydown', (e) => { if(e.key === 'Enter') send(); });
   </script>
 </body>
 </html>
